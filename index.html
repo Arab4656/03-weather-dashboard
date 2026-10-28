@@ -40,6 +40,11 @@
           <button type="submit">Search</button>
         </form>
 
+        <button class="location-button" id="location-button" type="button">
+          <span aria-hidden="true">⌖</span>
+          Use my location
+        </button>
+
         <div class="topbar-note">
           <span class="live-dot" aria-hidden="true"></span>
           <span>Weather, at a glance</span>
@@ -62,17 +67,34 @@
 
           <div class="status-message" id="status-message" role="status" aria-live="polite" hidden></div>
           <div class="status-message status-message--error" id="error-message" role="alert" hidden></div>
+          <div class="city-picker" id="city-picker" hidden>
+            <label for="city-options">Several places match. Choose one:</label>
+            <div class="city-picker-controls">
+              <select id="city-options" aria-label="Matching cities"></select>
+              <button id="city-select-button" type="button">Show weather</button>
+            </div>
+          </div>
 
           <section class="current-card glass-card" id="current-weather" aria-labelledby="current-city">
             <div class="weather-glow weather-glow--one" aria-hidden="true"></div>
             <div class="weather-glow weather-glow--two" aria-hidden="true"></div>
+            <div class="weather-skeleton" aria-hidden="true">
+              <span class="skeleton-line skeleton-line--label"></span>
+              <span class="skeleton-line skeleton-line--city"></span>
+              <span class="skeleton-line skeleton-line--temperature"></span>
+              <span class="skeleton-line skeleton-line--condition"></span>
+              <span class="skeleton-line skeleton-line--footer"></span>
+            </div>
             <div class="current-card-top">
               <div>
                 <p class="card-kicker">CURRENT WEATHER</p>
                 <h2 id="current-city">Loading…</h2>
                 <p class="location-line" id="current-location"></p>
               </div>
-              <span class="weather-pill"><span class="live-dot" aria-hidden="true"></span> Live conditions</span>
+              <div class="current-card-actions">
+                <button class="favourite-toggle" id="favourite-toggle" type="button" aria-pressed="false" aria-label="Add city to favourites">☆</button>
+                <span class="weather-pill"><span class="live-dot" aria-hidden="true"></span> Live conditions</span>
+              </div>
             </div>
 
             <div class="current-weather-main">
@@ -91,11 +113,17 @@
               </div>
               <div class="detail-divider" aria-hidden="true"></div>
               <div class="weather-detail">
+                <span class="detail-icon" aria-hidden="true">◌</span>
+                <span class="detail-label">Humidity</span>
+                <strong id="current-humidity">--</strong>
+              </div>
+              <div class="detail-divider" aria-hidden="true"></div>
+              <div class="weather-detail">
                 <span class="detail-icon detail-icon--clock" aria-hidden="true">◷</span>
                 <span class="detail-label">Local time</span>
                 <strong id="current-time">--:--</strong>
               </div>
-              <p class="weather-source">A lovely day to check in.</p>
+              <p class="weather-source">Weather by Open-Meteo</p>
             </div>
           </section>
 
@@ -105,8 +133,12 @@
                 <p class="eyebrow">THE WEEK AHEAD</p>
                 <h2 id="forecast-heading">7-day forecast</h2>
               </div>
-              <span class="forecast-unit">°C</span>
+              <div class="unit-toggle" role="group" aria-label="Temperature units">
+                <button class="unit-button" type="button" data-unit="c" aria-pressed="true">°C</button>
+                <button class="unit-button" type="button" data-unit="f" aria-pressed="false">°F</button>
+              </div>
             </div>
+            <span class="sr-only" id="forecast-unit">Forecast temperatures in °C</span>
             <div class="forecast-grid" id="forecast-grid" aria-live="polite"></div>
           </section>
         </section>

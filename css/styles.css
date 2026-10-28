@@ -141,9 +141,40 @@ button {
   transform: translateY(-1px);
 }
 
+.location-button {
+  display: inline-flex;
+  min-height: 42px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 13px;
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.58);
+  color: #68748e;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.location-button:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.location-button span {
+  color: var(--accent);
+  font-size: 17px;
+}
+
 .search-form button:focus-visible,
 .favourite-button:focus-visible,
-.brand:focus-visible {
+.brand:focus-visible,
+.location-button:focus-visible,
+.favourite-toggle:focus-visible {
   outline: 3px solid rgba(109, 121, 232, 0.65);
   outline-offset: 3px;
 }
@@ -262,6 +293,99 @@ h1 {
   background:
     radial-gradient(ellipse at 91% 30%, rgba(255, 237, 191, 0.4), transparent 33%),
     linear-gradient(117deg, rgba(255, 255, 255, 0.82), rgba(232, 237, 255, 0.67));
+}
+
+.current-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.favourite-toggle {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.56);
+  color: #9a8b69;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.favourite-toggle:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.favourite-toggle[aria-pressed="true"] {
+  color: #d39a45;
+}
+
+.current-card.is-loading > :not(.weather-glow):not(.weather-skeleton) {
+  visibility: hidden;
+}
+
+.weather-skeleton {
+  position: absolute;
+  z-index: 2;
+  inset: 28px 32px 22px;
+  display: none;
+  pointer-events: none;
+}
+
+.current-card.is-loading .weather-skeleton {
+  display: block;
+}
+
+.skeleton-line,
+.forecast-skeleton-line {
+  display: block;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(174, 184, 209, 0.16), rgba(174, 184, 209, 0.34), rgba(174, 184, 209, 0.16));
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+.skeleton-line--label {
+  width: 105px;
+  height: 8px;
+}
+
+.skeleton-line--city {
+  width: 170px;
+  height: 27px;
+  margin-top: 15px;
+}
+
+.skeleton-line--temperature {
+  width: 170px;
+  height: 88px;
+  margin-top: 24px;
+}
+
+.skeleton-line--condition {
+  width: 110px;
+  height: 13px;
+  margin: 10px 0 0 8px;
+}
+
+.skeleton-line--footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 38px;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    background-position: -200% 0;
+  }
 }
 
 .weather-glow {
@@ -458,16 +582,86 @@ h1 {
   font-weight: 700;
 }
 
-.forecast-unit {
-  display: grid;
-  width: 30px;
-  height: 30px;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  border-radius: 10px;
+.unit-toggle {
+  display: inline-flex;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: 11px;
   background: rgba(255, 255, 255, 0.48);
+}
+
+.unit-button {
+  min-width: 34px;
+  min-height: 27px;
+  padding: 0 7px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
   color: #858fa5;
+  cursor: pointer;
   font-size: 10px;
+  font-weight: 700;
+  transition: background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+.unit-button[aria-pressed="true"] {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 7px rgba(48, 62, 115, 0.1);
+  color: var(--accent-deep);
+}
+
+.unit-button:focus-visible,
+.city-picker select:focus-visible,
+.city-picker button:focus-visible {
+  outline: 3px solid rgba(109, 121, 232, 0.55);
+  outline-offset: 2px;
+}
+
+.city-picker {
+  margin: 0 0 12px;
+  padding: 13px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 10px 24px rgba(48, 62, 115, 0.07);
+  backdrop-filter: blur(16px);
+}
+
+.city-picker label {
+  display: block;
+  margin-bottom: 8px;
+  color: #68748e;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.city-picker-controls {
+  display: flex;
+  gap: 9px;
+}
+
+.city-picker select {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  padding: 0 10px;
+  border: 1px solid rgba(137, 151, 185, 0.24);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--ink);
+  font-size: 12px;
+}
+
+.city-picker button {
+  flex: 0 0 auto;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  font-size: 11px;
   font-weight: 700;
 }
 
@@ -490,6 +684,26 @@ h1 {
   background: rgba(255, 255, 255, 0.57);
   box-shadow: 0 10px 24px rgba(48, 62, 115, 0.055);
   transition: transform 180ms ease, background 180ms ease;
+}
+
+.forecast-card--skeleton {
+  align-items: center;
+}
+
+.forecast-skeleton-line {
+  width: 44px;
+  height: 13px;
+}
+
+.forecast-skeleton-line--icon {
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+}
+
+.forecast-skeleton-line--temp {
+  width: 46px;
+  height: 11px;
 }
 
 .forecast-card:hover {
@@ -700,6 +914,10 @@ h1 {
   color: #a24953;
 }
 
+.unit-button:hover {
+  color: var(--accent-deep);
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -781,8 +999,15 @@ h1 {
     display: none;
   }
 
-  .search-form {
+  .location-button {
     order: 2;
+    min-height: 36px;
+    padding: 0 10px;
+    font-size: 10px;
+  }
+
+  .search-form {
+    order: 3;
     width: 100%;
     height: 46px;
   }
@@ -816,6 +1041,15 @@ h1 {
     gap: 6px;
     padding: 7px 8px;
     font-size: 9px;
+  }
+
+  .current-card-actions {
+    gap: 6px;
+  }
+
+  .favourite-toggle {
+    width: 32px;
+    height: 32px;
   }
 
   .current-weather-main {
@@ -891,6 +1125,10 @@ h1 {
 
   .current-card-footer {
     gap: 9px;
+  }
+
+  .weather-pill {
+    display: none;
   }
 
   .detail-label {
